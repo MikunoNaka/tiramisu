@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <glib.h>
 
+#include <unistd.h>
+
 #include "tiramisu.h"
 #include "output.h"
 
@@ -50,6 +52,8 @@ void output_notification(GVariant *parameters) {
     if (print_json)
         json_output(app_name_sanitized, app_icon_sanitized, replaces_id,
             timeout, hints, actions, summary_sanitized, body_sanitized);
+    else if (print_formatted)
+	formatted_output(app_name_sanitized, summary_sanitized, body_sanitized);
     else
         default_output(app_name_sanitized, app_icon_sanitized, replaces_id,
             timeout, hints, actions, summary_sanitized, body_sanitized);
@@ -208,4 +212,34 @@ void json_output(gchar *app_name, gchar *app_icon, guint32 replaces_id,
     printf("\"summary\": \"%s\", "
         "\"body\": \"%s\"}\n", summary, body);
 
+}
+
+void formatted_output(gchar *app_name, gchar *summary, gchar *body) {
+	// sample config for lemonbar
+	// style this to your liking
+	char appFG[] = "%{F#" "FE6C69" "}";
+	char appBG[] = "%{B#" "130F23" "}";
+
+	char titleFG[] = "%{F#" "10CC8E" "}";
+	char titleBG[] = "%{B#" "130F23" "}";
+
+	char bodyFG[] = "%{F#" "6C71C4" "}";
+	char bodyBG[] = "%{B#" "130F23" "}";
+
+	char defFGBG[] = " %{F-}%{B-} ";
+
+	printf("%s%s App: %s%s",
+		appFG, appBG, app_name, defFGBG);
+	printf("%s%s Title: %s%s",
+		titleFG, titleBG, summary, defFGBG);
+	printf("%s%s Body: %s%s",
+		bodyFG, bodyBG, body, defFGBG);
+	sleep(5); // this aint work
+	printf("pepe");
+	/*printf(
+		"App: %s "
+		"Title: %s "
+		"Body: %s "
+		, app_name, summary, body
+	);*/
 }

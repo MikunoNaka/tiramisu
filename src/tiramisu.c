@@ -16,6 +16,7 @@ GMainLoop *main_loop = NULL;
 
 unsigned int notification_id = 0;
 char print_json = 0;
+char print_formatted = 0;
 char *delimiter = "\n";
 
 gboolean stop_main_loop(gpointer user_data) {
@@ -28,7 +29,7 @@ int main(int argc, char **argv) {
     /* Parse arguments */
 
     char argument;
-    while ((argument = getopt(argc, argv, "hjd:")) >= 0) {
+    while ((argument = getopt(argc, argv, "fhjd:")) >= 0) {
         switch (argument) {
             case 'd':
                 delimiter = optarg;
@@ -38,11 +39,16 @@ int main(int argc, char **argv) {
                     "tiramisu -[h|d|j]\n"
                     "-h\tHelp dialog\n"
                     "-d\tDelimeter for default output style.\n"
-                    "-j\tUse JSON output style\n");
+                    "-j\tUse JSON output style\n"
+                    "-f\tUse custom output style\n"
+	            "To customize the output, edit formatted_output in output.c");
                 return EXIT_SUCCESS;
                 break;
             case 'j':
                 print_json = 1;
+                break;
+	    case 'f':
+                print_formatted = 1;
                 break;
             default:
                 break;

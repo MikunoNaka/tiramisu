@@ -12,6 +12,7 @@ extern GMainLoop *main_loop;
 
 extern unsigned int notification_id;
 extern char print_json;
+extern char print_formatted;
 extern char *delimiter;
 
 #ifdef DEBUG
